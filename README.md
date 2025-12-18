@@ -1,1 +1,30 @@
 # Projet_courses
+
+>Ce projet consiste à creer un mini blur c'est a dire realiser une course de voitures (2 voitures) où ces dernieres devront parcourir une distance donnee c'est a dire faire un circuit complet avec des obstacles que ces voitures devront eviter et elle ne s'arreteront qu'apres avoir traverser la ligne d'arriver .😉😉😉😉😉 
+
+## PROBLEMATIQUE
+Ici, nous devrons etre capable de pouvoir tester le jeu directement apres chaque modification 😏 pour pouvoir voir l'effet produit par la modification en question et controler le jeu via une interface graphique, modifier la vitesse et autre caracteristiques raison pour laquelle nous integrerons IMGUI. 😎😎 
+
+### OBJECTIFS
+Pour cela, il faudra: 
+* faire differents skins de voiture 🚗🚗🚓🚓🛻🛻🚖🚖🚘🚘
+* trouver des pistes de jeu et les integres dans le programme 🚧🚩
+* creer une fenetre de jeu pour representer l'environnement
+*  integrer IMGUI dans le programme pour offrir une interface de test tres rapide au developpeur
+* pouvoir controler les voitures a travers chaque touches du clavier 
+* pouvoir competir avec l'IA 🏴
+
+#### PROCESSUS DE DEVELOPPEMENT
+Pour realiser ce projet, nous devrons:
+* D'abord afficher le menu avec les contraintes et objectifs du jeu 🚦😉😉
+* faire une condition de choir du second joueur(une autre personne ou l'IA).🚖🚓
+* faire une fonction pour presenter les differents skin afin que chacun puisse effectuer un choix 🚖🚘🛻🚗🚓
+* faire une autre fonction pour la forme de circuit de jeu qui sera choisis aleatoirement
+* Creer la fenetre du jeu
+* faire une fonction qui sera capable de gerer les evenements ( les touches du clavier) dans chaque cas (pour le premier et second joueur)
+* creer une boucle de jeu pour que les voitures puissent rouler
+* creer une fonction qui affichera aleatoirement les obstacles 🎄🎄🎄
+* pouvoir gerer la velociter et si possible le score 😎😎
+* sans oublier le pawer 😎
+
+Ici en quelques mots est ce a quoi consistera mon projet 😏😏😏😏😏

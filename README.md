@@ -28,3 +28,10 @@ Pour realiser ce projet, nous devrons:
 * sans oublier le pawer 😎
 
 Ici en quelques mots est ce a quoi consistera mon projet 😏😏😏😏😏
+
+# REDACTION DU PROGRAMME
+L'archtitecture de ce programme est:
+
+
+## REMPLISSAGE DE RENDERER
+Ce fichier contient les fonctions permettant d'afficher le rendu, ce qui se verra dans la fenetre

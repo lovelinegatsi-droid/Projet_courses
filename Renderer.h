@@ -8,19 +8,29 @@
 #define WINDOW_HEIGHT 800
 
 struct  AppState{
-    SDL_Window* window ;
-    SDL_Renderer* renderer ;
-    bool is_Running = true ;
+    SDL_Window* window ; //la fenêtre SDL
+    SDL_Renderer* renderer ; //le renderer associé à la fenêtre
+    bool Is_Initialized = false; // booléen indiquant si l'initialisation a réussi  
 };
-void Initialize() ;
-bool InitRender(SDL_Window* window);
-SDL_Texture* LoadTexture(const char* path);
-void RenderCar(SDL_Texture* carTexture, const SDL_FRect& carPos);
-SDL_Texture * chargement_image_piste(SDL_Renderer* renderer, const char* cheminImage);
-SDL_Texture * chargement_image_voiture(SDL_Renderer* renderer, const char* cheminImage);
-void renderCar(SDL_Renderer* renderer, SDL_Texture* carTexture, SDL_FRect pos);
+struct  voiture{
+    SDL_FRect car_position; // Position et taille de la voiture
+    float vitesse_moyenne; //vitesse de déplacement
+    SDL_FRect piste_position ; // Position et taille de la piste
+};
+
+/*const struct position
+{
+    SDL_FRect& pos = {10.f, 100.f, 1200.f, 300.f};
+    SDL_FRect& pos1 = {200.f, 150.f, 100.f, 50.f};
+    SDL_FRect& pos2 = {200.f, 275.f, 100.f, 50.f};
+};*/
+
+
+bool Initialize() ;//Initialise SDL, crée la fenêtre et le renderer. Renvoie true si succès.
+void Shutdown(); //Libère les ressources et ferme SDL on peut l'appeler dans la boucle lorsqu'on rentre un evenement de sdl_quit()
+SDL_Texture * chargement_image_piste(SDL_Renderer* renderer, const char* cheminImage); //Charge la texture de la piste.
+SDL_Texture * chargement_image_voiture(SDL_Renderer* renderer, const char* cheminImage);//Charge la texture d'une voiture
 void RenderTile(SDL_Texture* tileset, SDL_Rect srcTile, SDL_FRect dstPos);
-void renderTrack(SDL_Renderer* renderer, SDL_Texture* trackTexture);
-void ClearScreen();
-void PresentScreen();
-void DestroyRenderer();
+void Element_Charger();
+void Afficher_Rendu(SDL_Renderer* renderer, SDL_Texture* piste, SDL_Texture* voiture1, SDL_Texture* voiture2, SDL_FRect pos1, SDL_FRect pos2, SDL_FRect pos); // Fonction pour afficher (renderer) le rendu à l'écran.
+

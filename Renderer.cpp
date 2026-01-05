@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include"Game.h"
 
-SDL_Texture * chargement_image_piste(SDL_Renderer* renderer, const char* cheminImage){
+/*SDL_Texture * chargement_image_piste(SDL_Renderer* renderer, const char* cheminImage){
     SDL_Texture * piste = IMG_LoadTexture(renderer, cheminImage);
 
     if(!piste){
@@ -46,7 +46,7 @@ bool Initialize(){
     FENETRE.renderer = SDL_CreateRenderer(FENETRE.window, nullptr);
 
     if(!FENETRE.renderer){
-        std::cerr << "❌Erreur création renderer: " << SDL_GetError() << std::endl ;
+        std::...cerr << "❌Erreur création renderer: " << SDL_GetError() << std::endl ;
         SDL_DestroyWindow(FENETRE.window); 
         SDL_Quit(); 
         return false; 
@@ -56,9 +56,6 @@ bool Initialize(){
     SDL_SetWindowPosition(FENETRE.window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
     SDL_ShowWindow(FENETRE.window);
     Element_Charger();
-    Game game;
-    game.HandleEvents();
-
     return true;
 }
 
@@ -100,3 +97,4 @@ void Afficher_Rendu(SDL_Renderer* renderer, SDL_Texture* piste, SDL_Texture* voi
     SDL_RenderPresent(renderer); // pour le presenter a l'ecran
     SDL_Delay(16); //~60 FPS
 }
+*/

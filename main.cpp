@@ -10,7 +10,7 @@ int main(/*int argc, char* argv[]*/){\
         std::cout << "Erreur SDL_Init: " << SDL_GetError() << std::endl;
         return -1;
     } //Si ça échoue
-    game.Init("course 2D", 1200, 800);
+    
     std::cout << "________________________________________________\n";
     std::cout << "Bienvenu(e) a ce jeu de voiture cher amis 🚗🚗🚗 \n";
     std::cout << "________________________________________________\n \n";
@@ -26,8 +26,10 @@ int main(/*int argc, char* argv[]*/){\
     std::cout << " entrez votre reponse ici :  ";
     std::cin >> c;
 
-    if (c == 'O') game.Run();// lance la boucle principale
-
+    if (c == 'O'){
+        game.Init("course 2D", 1200, 800);
+        game.Run();// lance la boucle principale
+    }
     SDL_Delay(16);
     game.Cleanup(); //libere les ressources
     return 0;

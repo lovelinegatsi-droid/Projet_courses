@@ -29,11 +29,12 @@ void Afficher_Rendu(SDL_Renderer* renderer, SDL_Texture* piste, SDL_Texture* voi
 
 */
 
-#ifndef RENDERER_H
+/*  #ifndef RENDERER_H
 #define RENDERER_H
 
 #include <SDL3/SDL.h>
 #include <vector>
+#include "Game.h"
 
 struct Tile {
     SDL_Texture* texture;   // Image de la tuile
@@ -43,15 +44,7 @@ struct Tile {
     float height;             // Hauteur
 };
 
-struct Car {
-    SDL_Texture* texture;   // Texture de la voiture (image chargée avec SDL_image)
-    float positionX;        // Position X en pixels (float pour mouvements fluides)
-    float positionY;        // Position Y en pixels (float pour mouvements fluides)
-    float width;              // Largeur de la voiture à l'écran
-    float height;             // Hauteur de la voiture à l'écran
-    double direction;       // Angle de rotation en degrés (0 = droite, 90 = bas, etc.)
-    float speed;            // Vitesse actuelle de la voiture (pixels par frame)
-};
+void Declaration();
 
 struct Segment {
     SDL_FRect src; // zone dans l'image
@@ -68,8 +61,35 @@ void DrawCar(SDL_Renderer* renderer, const Car& car);
 
 void piste_rassembles(SDL_Renderer *renderer, SDL_Texture* piste);
 
+//void HandleEvents(Car car_position, Car car2_position);
 
 //void Defilement_image(SDL_Renderer* renderer, SDL_Texture* PisteTexture, float decalageY, float screenWidth, float imageHeight);
 void Defilement_image(SDL_Renderer* renderer,SDL_Texture* texturePiste,float& decalageY,float vitessePixelsParSeconde,float largeurEcran,float largeurImage,float deltaTimeSeconds);
 #endif // RENDERER_H
 
+*/
+
+
+#ifndef RENDERER_H
+#define RENDERER_H
+
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h> // Pour charger des PNG
+#include "Utils.h"
+
+/**
+ * @brief Charge une image et la transforme en texture
+ * @param renderer Le moteur de rendu
+ * @param chemin Le chemin vers l'image (ex: "assets/car.png")
+ * @return SDL_Texture* La texture chargée ou nullptr
+ */
+SDL_Texture* ChargerTexture(SDL_Renderer* renderer, const char* chemin);
+
+/**
+ * @brief Dessine une voiture à l'écran
+ * @param renderer Le moteur de rendu
+ * @param car La structure contenant les données de la voiture
+ */
+void DessinerVoiture(SDL_Renderer* renderer, const Car& car);
+
+#endif

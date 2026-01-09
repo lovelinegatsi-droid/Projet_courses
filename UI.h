@@ -5,27 +5,38 @@
 #define UI_H
 
 #include <SDL3/SDL.h>
-#include <string>
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_sdlrenderer3.h"
+#include "Utils.h"
 
-class UI {
-public:
-    // Initialise ImGui
-    void Init(SDL_Window* window, SDL_Renderer* renderer);
+/**
+ * @brief Initialise les outils ImGui pour SDL3
+ * @param window Pointeur vers la fenêtre
+ * @param renderer Pointeur vers le moteur de rendu
+ */
+void InitUI(SDL_Window* window, SDL_Renderer* renderer);
 
-    // Affiche le menu principal
-    void ShowMainMenu(SDL_Renderer* renderer);
+/**
+ * @brief Prépare une nouvelle image (frame) pour l'interface
+ */
+void NouvelleTrameUI();
 
-    // Permet de choisir une piste
-    int ChooseTrack(SDL_Renderer* renderer);
+/**
+ * @brief Affiche le menu de configuration du jeu
+ * @param typeJ2 Pointeur pour modifier le type de second joueur
+ * @param vitessePiste Pointeur pour ajuster la difficulté
+ */
+void AfficherMenuConfiguration(TypeJoueur* typeJ2, float* vitessePiste);
 
-    // Permet de choisir une voiture
-    int ChooseCar(SDL_Renderer* renderer);
+/**
+ * @brief Dessine l'interface sur l'écran
+ */
+void RendreUI();
 
-    // Permet de choisir si le joueur 2 est humain ou IA
-    bool ChooseOpponentType(SDL_Renderer* renderer);
+/**
+ * @brief Nettoie la mémoire d'ImGui
+ */
+void NettoyerUI();
 
-    // Nettoie ImGui
-    void Cleanup();
-};
-
-#endif // UI_H
+#endif

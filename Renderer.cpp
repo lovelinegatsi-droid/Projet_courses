@@ -61,14 +61,14 @@ void Afficher_Rendu(SDL_Renderer* renderer, SDL_Texture* piste, SDL_Texture* voi
     SDL_Delay(16); //~60 FPS
 }
 */
-SDL_Texture* LoadTexture(SDL_Renderer* renderer, const char* path) {
+/*     SDL_Texture* LoadTexture(SDL_Renderer* renderer, const char* path) {
     // IMG_LoadTexture charge directement une image en SDL_Texture
     SDL_Texture* texture = IMG_LoadTexture(renderer, path);
     if (!texture) {
         std::cout <<"erreur de chargement de texture "<< SDL_GetError() << std::endl;
     }
     return texture;
-}
+}                */
 
 /**
  * @brief Dessine une texture sur la fenêtre.
@@ -81,10 +81,10 @@ SDL_Texture* LoadTexture(SDL_Renderer* renderer, const char* path) {
  * @param destRect Rectangle de destination (position et taille à l'écran).
  */
 
-void DrawTexture(SDL_Renderer* renderer, SDL_Texture* texture, const SDL_FRect& destRect) {
+/*          void DrawTexture(SDL_Renderer* renderer, SDL_Texture* texture, const SDL_FRect& destRect) {
     // SDL_RenderCopy copie la texture vers la fenêtre
     SDL_RenderTexture(renderer, texture, nullptr, &destRect);
-}
+}             */
 
 /**
  * @brief Dessine toutes les tuiles de la piste.
@@ -96,7 +96,7 @@ void DrawTexture(SDL_Renderer* renderer, SDL_Texture* texture, const SDL_FRect& 
  * @param tiles Liste des tuiles à afficher (chaque tuile contient sa texture et sa position).
  */
 
-void DrawTiles(SDL_Renderer* renderer, const std::vector<Tile>& tiles) {
+/*                void DrawTiles(SDL_Renderer* renderer, const std::vector<Tile>& tiles) {
     // Effacer l’écran avec fond vert (herbe)
     SDL_SetRenderDrawColor(renderer, 0, 200, 0, 255);
     SDL_RenderClear(renderer);
@@ -106,7 +106,7 @@ void DrawTiles(SDL_Renderer* renderer, const std::vector<Tile>& tiles) {
         SDL_FRect dest = { tile.positionX, tile.positionY, tile.width, tile.height };
         SDL_RenderTexture(renderer, tile.texture, nullptr, &dest);
     }
-}
+}               */
 
 /**
  * @brief Dessine une voiture sur la piste.
@@ -118,11 +118,11 @@ void DrawTiles(SDL_Renderer* renderer, const std::vector<Tile>& tiles) {
  * @param car Objet voiture contenant sa texture, sa position, sa taille et son angle de direction.
 */
 
-void DrawCar(SDL_Renderer* renderer, const Car& car) {
+/*         void DrawCar(SDL_Renderer* renderer, const Car& car) {
     SDL_FRect dest = { car.positionX, car.positionY, car.width, car.height };
 
     SDL_RenderTextureRotated(renderer, car.texture, nullptr, &dest, car.direction, nullptr, SDL_FLIP_NONE);
-}
+}          */
 
 /*void Defilement_image(SDL_Renderer* renderer, SDL_Texture* PisteTexture, float decalageY, float screenWidth, float imageHeight) {
     // Vitesse de défilement (pixels par frame)
@@ -143,7 +143,7 @@ void DrawCar(SDL_Renderer* renderer, const Car& car) {
     SDL_RenderTexture(renderer, PisteTexture, nullptr, &dest2);
 }*/
 
-void Defilement_image(SDL_Renderer* renderer,
+/*            void Defilement_image(SDL_Renderer* renderer,
                       SDL_Texture* texturePiste,
                       float& decalageX,
                       float vitessePixelsParSeconde,
@@ -164,11 +164,11 @@ void Defilement_image(SDL_Renderer* renderer,
 
     SDL_RenderTexture(renderer, texturePiste, nullptr, &dest1);
     SDL_RenderTexture(renderer, texturePiste, nullptr, &dest2);
-}
+}          */
 
 
 // on utilise nullptr pour prendre toute l'image et le suivant c'est le point de rotation
-void piste_rassembles(SDL_Renderer *renderer, SDL_Texture* piste){
+/*          void piste_rassembles(SDL_Renderer *renderer, SDL_Texture* piste){
     piste = LoadTexture(renderer, "assets/piste1.png");
     std::vector<Segment> segments;
     int tileWidth = 64;
@@ -202,4 +202,64 @@ void piste_rassembles(SDL_Renderer *renderer, SDL_Texture* piste){
     for (const auto& seg : segments) {
     SDL_RenderTexture(renderer, piste, &seg.src, &seg.dst);
     }
+}          */
+
+/*void Game::HandleEvents(Car car_position, Car car2_position) {
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_EVENT_QUIT) {
+            misRunning = false;
+        }
+        if (event.type == SDL_EVENT_KEY_DOWN){
+            if (event.type == SDL_SCANCODE_DOWN){
+                car_position.positionY += 3;
+            } if(event.type == SDL_SCANCODE_UP){
+                car_position.positionY -= 3;
+            } if(event.type == SDL_SCANCODE_LEFT){
+                car_position.positionX -= 3;
+            } if(event.type == SDL_SCANCODE_RIGHT){
+                car_position.positionX += 3;
+            }
+            if (event.type == SDL_SCANCODE_S){
+                car2_position.positionY += 3;
+            } if (event.type == SDL_SCANCODE_W){
+                car2_position.positionY -= 3;
+            } if(event.type == SDL_SCANCODE_Q){
+                car2_position.positionX -= 3;
+            } if(event.type == SDL_SCANCODE_E){
+                car2_position.positionX += 3;
+            }
+        }
+    }
+}  //Récupère les événements (clavier, souris, fermeture fenêtre).
+*/
+
+#include "Renderer.h"
+#include <iostream>
+
+/**
+ * @brief Utilise SDL_image pour créer une texture à partir d'un fichier.
+ * @param renderer Le moteur de rendu SDL3.
+ * @param chemin Localisation du fichier image.
+ */
+SDL_Texture* ChargerTexture(SDL_Renderer* renderer, const char* chemin) {
+    SDL_Texture* nouvelleTexture = IMG_LoadTexture(renderer, chemin);
+    if (!nouvelleTexture) {
+        std::cout << "Erreur chargement : " << SDL_GetError() << std::endl;
+    }
+    return nouvelleTexture;
 }
+
+/**
+ * @brief Affiche la voiture en utilisant sa position et son angle.
+ * @param renderer Pinceau SDL3.
+ * @param car Référence vers la structure de la voiture.
+ */
+void DessinerVoiture(SDL_Renderer* renderer, const Car& car) {
+    // Définition du rectangle de destination (où l'image sera dessinée)
+    SDL_FRect dest = { car.positionX, car.positionY, car.width, car.height };
+    
+    // SDL_RenderTextureRotated permet de faire tourner la voiture
+    SDL_RenderTextureRotated(renderer, car.texture, nullptr, &dest, car.direction, nullptr, SDL_FLIP_NONE);
+}
+

@@ -1,14 +1,53 @@
+/**
+ * Fichier: Utils.h
+ * Description: Contient les structures de donnees de base.
+ */
 #ifndef UTILS_H
 #define UTILS_H
-
 #include <SDL3/SDL.h>
-/*
-// Vérifie si une voiture est en collision avec un segment de piste
-bool CheckCollision(const Car& car, const SDL_Rect& trackSegment);
 
-// Empêche une voiture de sortir de la fenêtre
-void ClampPosition(Car& car, int minX, int maxX, int minY, int maxY);
-*/
-#endif // UTILS_H
+/**
+ * @brief Type de second joueur
+ */
+enum class TypeJoueur {
+    HUMAIN,
+    IA,
+    AUCUN
+};
+
+/**
+ * struct Vecteur2D - Represente une position (x, y)
+ * @x: Coordonnee horizontale
+ * @y: Coordonnee verticale
+ */
+struct Vecteur2D {
+    float x;
+    float y;
+};
+
+/**
+ * struct Rect - Represente un rectangle (pour l'affichage)
+ * @x: Position X
+ * @y: Position Y
+ * @w: Largeur (width)
+ * @h: Hauteur (height)
+ */
+struct Rect {
+    float x;
+    float y;
+    float w;
+    float h;
+};
+
+struct Car {
+    SDL_Texture* texture;   // Texture de la voiture (image chargée avec SDL_image)
+    float positionX;        // Position X en pixels (float pour mouvements fluides)
+    float positionY;        // Position Y en pixels (float pour mouvements fluides)
+    float width;              // Largeur de la voiture à l'écran
+    float height;             // Hauteur de la voiture à l'écran
+    double direction;       // Angle de rotation en degrés (0 = droite, 90 = bas, etc.)
+    float vitesseMoyenne;            // Vitesse actuelle de la voiture (pixels par frame)
+};
+#endif /* UTILS_H */
 
 

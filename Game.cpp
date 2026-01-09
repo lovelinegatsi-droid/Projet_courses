@@ -28,22 +28,22 @@ bool Game::Init(const char* title, int width, int height) {
     };
 
     // CHARGEMENT DES TEXTURES (On le fait une seule fois ici !)
-    mpisteTexture = ChargerTexture(mrenderer, "assets/piste1.png");
+    mpisteTexture = ChargerTexture(mrenderer, "assets/piste3.png");
     
     // Initialisation Joueur 1 (Bleu par ex)
-    mjoueur1.texture = ChargerTexture(mrenderer, "assets/car1.png");
-    mjoueur1.positionX = 300.0f;
-    mjoueur1.positionY = 400.0f;
-    mjoueur1.width = 50.0f;
-    mjoueur1.height = 80.0f;
+    mjoueur1.texture = ChargerTexture(mrenderer, "assets/car2.png");
+    mjoueur1.positionX = 350.0f;
+    mjoueur1.positionY = 600.0f;
+    mjoueur1.width = 80.0f;
+    mjoueur1.height = 120.0f;
     mjoueur1.vitesseMoyenne = 5.0f;
 
     // Initialisation Joueur 2 (Rouge par ex)
-    mjoueur2.texture = ChargerTexture(mrenderer, "assets/car2.png");
-    mjoueur2.positionX = 450.0f;
-    mjoueur2.positionY = 400.0f;
-    mjoueur2.width = 50.0f;
-    mjoueur2.height = 80.0f;
+    mjoueur2.texture = ChargerTexture(mrenderer, "assets/car13.png");
+    mjoueur2.positionX = 500.0f;
+    mjoueur2.positionY = 600.0f;
+    mjoueur2.width = 170.0f;
+    mjoueur2.height = 170.0f;
     mjoueur2.vitesseMoyenne = 5.0f;
 
     mtypeJ2 = TypeJoueur::HUMAIN; // Par défaut, deux joueurs
@@ -75,7 +75,37 @@ void Game::HandleEvents() {
     }
 }
 
+void Game::Check_Collision(){
+    float vitesseCollisions = 50.0f;
+    
+    if(mjoueur1.positionX <= 300){
+        mjoueur1.positionX = 310;
+    }
+    if(mjoueur1.positionX >= 600){
+        mjoueur1.positionX = 590;
+    }
+    if(mjoueur2.positionX <= 300){
+        mjoueur2.positionX = 310;
+    }
+    if(mjoueur2.positionX >= 600){
+        mjoueur2.positionX = 590;
+    }
+    if ((mjoueur1.positionX == mjoueur2.positionX - 40 && mjoueur1.positionX < mjoueur2.positionX) || (mjoueur2.positionX == mjoueur1.positionX - 40 && mjoueur1.positionX > mjoueur2.positionX)){
+        mjoueur1.positionX -= vitesseCollisions;
+        mjoueur2.positionX += vitesseCollisions;
+    }
+    if (mjoueur1.positionY == 700 || mjoueur1.positionY == 300){
+        mjoueur1.positionY = 650;
+    }
+    if (mjoueur2.positionY == 700 || mjoueur2.positionY == 300){
+        mjoueur2.positionY = 650;
+    }
+    if (mjoueur1.positionY == 300){
+        mjoueur1.positionY = 300;
+    }
+}
 void Game::Update() {
+    Check_Collision();
     // Animation de la piste : on augmente le décalage
     mdecalagePiste += 10.0f; 
     if (mdecalagePiste >= 600.0f) {
@@ -85,12 +115,12 @@ void Game::Update() {
 
 void Game::Render() {
     // 1. On vide l'écran
-    SDL_SetRenderDrawColor(mrenderer, 50, 50, 50, 255); // Gris foncé
+    SDL_SetRenderDrawColor(mrenderer, 34, 139, 34, 255); // vert
     SDL_RenderClear(mrenderer);
 
     // 2. On dessine la piste (en deux morceaux pour l'effet infini)
-    SDL_FRect rectPiste1 = { 0, mdecalagePiste, 800, 600 };
-    SDL_FRect rectPiste2 = { 0, mdecalagePiste - 600, 800, 600 };
+    SDL_FRect rectPiste1 = { 300, mdecalagePiste, 400, 2500 };
+    SDL_FRect rectPiste2 = { 300, mdecalagePiste - 400, 400, 2500 };
     
     if (mpisteTexture) {
         SDL_RenderTexture(mrenderer, mpisteTexture, nullptr, &rectPiste1);
@@ -123,35 +153,6 @@ void Game::Run() {
     }
 }
 
-/*void Game::HandleEvents(Car car_position, Car car2_position){
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_EVENT_QUIT) {
-            misRunning = false;
-        }
-        if (event.type == SDL_EVENT_KEY_DOWN){
-            if (event.type == SDL_SCANCODE_DOWN){
-                car_position.positionY += 3;
-            } if(event.type == SDL_SCANCODE_UP){
-                car_position.positionY -= 3;
-            } if(event.type == SDL_SCANCODE_LEFT){
-                car_position.positionX -= 3;
-            } if(event.type == SDL_SCANCODE_RIGHT){
-                car_position.positionX += 3;
-            }
-            if (event.type == SDL_SCANCODE_S){
-                car2_position.positionY += 3;
-            } if (event.type == SDL_SCANCODE_W){
-                car2_position.positionY -= 3;
-            } if(event.type == SDL_SCANCODE_Q){
-                car2_position.positionX -= 3;
-            } if(event.type == SDL_SCANCODE_E){
-                car2_position.positionX += 3;
-            }
-        }
-    }
-} */ //Récupère les événements (clavier, souris, fermeture fenêtre).
-
 
 
 /* Jeu::Jeu() 
@@ -175,42 +176,7 @@ void Game::Run() {
     }
 }
 
-Game::~Game() {
-    Cleanup();
-}
 
-Jeu::~Jeu() {
-    Nettoyer();
-}
-
-bool Jeu::Initialiser(const char* titre, int largeur, int hauteur) {
-    // Initialiser SDL
-    if (!SDL_Init(SDL_INIT_VIDEO)) {
-        SDL_Log("Erreur SDL_Init: %s", SDL_GetError());
-        return false;
-    }
-
-    // Créer la fenêtre
-    fenetre = SDL_CreateWindow(titre, largeur, hauteur, 0);
-    if (!fenetre) {
-        SDL_Log("Erreur SDL_CreateWindow: %s", SDL_GetError());
-        return false;
-    }
-
-    // Créer le moteur de rendu
-    moteurRendu = SDL_CreateRenderer(fenetre, nullptr);
-    if (!moteurRendu) {
-        SDL_Log("Erreur SDL_CreateRenderer: %s", SDL_GetError());
-        return false;
-    }
-
-    // Initialiser le gestionnaire de textures
-    gestionnaireTextures = new TextureManager(moteurRendu);
-
-    // Charger les ressources (images)
-    if (!ChargerRessources()) {
-        SDL_Log("Attention: Certaines textures n'ont pas pu être chargées. Mode secours activé.");
-    }
 
     // Initialiser la caméra
     camera = new Camera(largeur, hauteur);

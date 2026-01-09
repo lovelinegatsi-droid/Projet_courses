@@ -35,6 +35,9 @@ public:
     // Libère les ressources
     void Cleanup();
 
+    // pour les collisions 
+    void Check_Collision();
+
 private:
     // Gère les entrées clavier/souris
     void HandleEvents();
@@ -51,23 +54,20 @@ private:
 
     //Ajout de nouvelle variable 
     SDL_Texture* mpisteTexture;   // Image de la route
+    //float mvitesseJeu; //vitesse globale
     float mdecalagePiste;         // Position actuelle du défilement
     Car mjoueur1;        // Voiture 1
     Car mjoueur2;        // Voiture 2 (ou IA)
     TypeJoueur mtypeJ2;  // État du second joueur
+
+   /*/ // --- Variables de Progression ---
+    float mdistanceParcourue;   // Distance actuelle du joueur
+    float mobjectifDistance;    // Distance pour atteindre l'arrivée
+    bool mestArrive;  */          // Vrai si la ligne d'arrivée est franchie
 };
 
 #endif
-/* struct RaceInfo {
-    int Num_Tour;          // Numéro du tour en cours
-    int Num_total_tour;           // Nombre total de tours dans la course
-    float Temps_tour[10];      // Tableau qui stocke les temps de chaque tour (max 10 tours)
-    float Temps_tour_Actuel;    // Temps du tour en cours (qui s’incrémente pendant la course)
-    float Best_Temps;       // Meilleur temps réalisé sur un tour
-    int currentCheckpoint;   // Position actuelle dans les checkpoints du circuit
-    bool Course_Started;        // Indique si la course a commencé (true/false)
-    bool Course_Finished;       // Indique si la course est terminée (true/false)
-};*/
+
 
 /*
 class Jeu {

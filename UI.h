@@ -39,4 +39,6 @@ void RendreUI();
  */
 void NettoyerUI();
 
+void RendreUI(SDL_Renderer* renderer);
+
 #endif

@@ -8,129 +8,78 @@
 #include <iostream>
 #include <string>
 
-/*SDL_Texture * LoadImageTexture(SDL_Renderer* renderer, const char* filepath){
-    const char* stbi_failure_reason = nullptr;
-    int width, height, channels;
 
-    //chargeons l'image en memoire
-    unsigned char* image_data = stbi_load(filepath, &width, &height, &channels, 4); //force RGBA
-    //elle charge l'image en 4 canaux
+void InitUI(SDL_Window* window, SDL_Renderer* renderer) {
+    // Crée le contexte global de ImGui
+    ImGui::CreateContext();
 
-    if(!image_data){
-        std::cerr<<"erreur std_image: " << stbi_failure_reason<< std::endl ;
-        return nullptr;
-    }
-    //si le chargement echoue, on affiche l'erreur on retourne nullptr
+    // Lie ImGui à la fenêtre SDL3
+    ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
 
-    std::cout <<"image chargee:" <<width << "x" <<height << "(" << channels << "canneaux)" << std::endl;
-    //affiche les dimensions et les canaux de l'image pour verification donc cette partie est facultative mais utile
-
-    //creons une texture SDL
-
-    SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, width, height);
-    //Crée une texture vide compatible SDL, au bon format et de la bonne taille
-    if(!texture){
-        std::cerr << "erreur de creation texture: " << SDL_GetError() << std::endl;
-        stbi_image_free(image_data);
-        return nullptr;
-    }//Vérifie si la texture a bien été créée. Sinon, libère l’image et quitte
-
-
-    //copions les pixels dans la texture
-
-    SDL_UpdateTexture(texture, nullptr, image_data, width* 4) ;
-
-    //liberons la memoire de stb_image
-    stbi_image_free(image_data);
-    return texture;
-    //Libère la mémoire brute et retourne la texture prête à être affichée
-}*/
-/*SDL_Texture * LoadImageTexture(SDL_Renderer* renderer, const char* filepath){
-    if (!(SDL_ImageInit(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-    std::cerr << "Erreur IMG_Init: " << SDL_ImageGetError() << std::endl;
-    return;
-}
-    SDL_Surface* surface = IMG_Load(filepath);
-    if(!surface){
-        std::cerr << "erreur IMG_Load: "<< SDL_ImageGetError() << std::endl;
-        return nullptr;
-    }
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(FENETRE.renderer, surface);
-    SDL_DestroySurface(surface);
-    if(!texture){
-        std::cerr << " erreur de creation de texture: "<< SDL_GetError() << std::endl;
-        return nullptr;
-    }
-    return texture;
+    // Lie ImGui au moteur de rendu SDL3
+    // pour dessiner les boutons et les fenetres utilise renderer
+    ImGui_ImplSDLRenderer3_Init(renderer);
 }
 
-void Initialize_imgui(){
-    IMGUI_CHECKVERSION();
-    float image_scale = 1.0f;
-    SDL_Texture* voiture = LoadImageTexture(FENETRE.renderer, "assets/voiture.png");
-    int tex_width = 0, tex_height = 0;
-    char image_path[256] = "assets/voiture.png";
-    bool show_info_window = true;
-    bool show_image = true; 
-    //nouvelle frame imgui
+void NouvelleTrameUI() {
+    // Démarre le calcul interne d'ImGui pour cette image
     ImGui_ImplSDLRenderer3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
+}
 
-    //interface imgui
-    if (show_info_window){
-        ImGui::Begin("controles", &show_info_window);
+void AfficherMenuConfiguration(TypeJoueur* typeJ2, float* vitessePiste, int* car) {
+    // Crée une fenêtre nommée "Paramètres de la Course"
+    ImGui::Begin("Parametres de la Course");
 
-        ImGui::Text("Bienvenue dans la course de voiture!" );
-        ImGui::Separator();
-        //controlons l'image
-        ImGui::Checkbox("affichage de l'image", &show_image);
+    // Texte simple
+    ImGui::Text("Choisissez le mode de jeu :");
 
-        if(voiture){
-            ImGui::SliderFloat("echelle", &image_scale, 0.1f, 3.0f);
-            ImGui::Text("dimensions:", tex_width, tex_height);
-        }
-        ImGui::Separator();
-
-        //chargement d'image
-        SDL_FRect positionVoiture = {400, 300, 100, 60};
-        ImGui::InputText("chemin image", image_path, IM_ARRAYSIZE(image_path));
-        if(ImGui::Button("charger nouvelle image")){
-            if(voiture){
-                SDL_DestroyTexture(voiture);
-            }
-            voiture = LoadImageTexture(FENETRE.renderer, image_path);
-            if(!voiture){
-                std::cerr <<"erreur de chargement: " << SDL_GetError() << std::endl;
-                FENETRE.is_Running = false;
-            }
-            SDL_RenderTexture(FENETRE.renderer, voiture, nullptr, &positionVoiture);
-            // où le param1 est le context du rendu, param2 est la texture contenant l'image, param3 est pour afficher sur tout l'ecran, param4 est pour afficher cette voiture a une position de l'ecran(x, y, width(largeur de l'image afficher), height(hauteur de cette image))
-        }
+    // Bouton radio pour choisir entre Humain et IA
+    if (ImGui::RadioButton("Deux Joueurs (Humain)", *typeJ2 == TypeJoueur::HUMAIN)) {
+        *typeJ2 = TypeJoueur::HUMAIN;
     }
-}*/
+    
+    ImGui::SameLine(); // Aligne le bouton suivant sur la même ligne
+    if (ImGui::RadioButton("Contre l'IA", *typeJ2 == TypeJoueur::IA)) {
+        *typeJ2 = TypeJoueur::IA;
+    }
 
-/*void InitUI(SDL_Window* window, SDL_Renderer* renderer){
-    IMGUI_CHECKVERSION();
-    SDL_Quit();
-    return;
-    ImGui::CreateContext() ;
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; //navigation clavier
+    // Séparateur visuel
+    ImGui::Separator();
 
-    //choix du theme
-    ImGui::StyleColorsDark() ;
+    // Section Choix de la voiture
+    ImGui::Text("Choisir votre voiture (Joueur 1) :");
+    if (ImGui::Button("voiture 1")) *car = 1;
+    ImGui::SameLine();
+    if (ImGui::Button("voiture 2")) *car = 2;
+    ImGui::SameLine();
+    if (ImGui::Button("voiture 3")) *car = 3;
+    // Glissière pour changer la vitesse de la piste (vitesse entre 100 et 1000)
+    ImGui::SliderFloat("Vitesse de la piste", vitessePiste, 100.0f, 1000.0f);
 
-    //Init backends imgui
-    ImGui_ImplSDL3_InitForSDLRenderer(window, renderer) ;
-    ImGui_ImplSDLRenderer3_Init(renderer);
+    // Fin de la fenêtre
+    ImGui::End();
+}
 
-    //variables pour la demo
-    bool show_demo_window = true;
-    bool show_custom_window = true;
+/**
+ * @brief Dessine l'interface sur l'écran
+ * @param renderer Le moteur de rendu de ton jeu
+ */
+void RendreUI(SDL_Renderer* renderer) {
+    // 1. On finalise les calculs des widgets (boutons, fenêtres)
+    ImGui::Render();
+    
+    // 2. On dessine les données calculées
+    // ImGui::GetDrawData() récupère la liste des formes à dessiner
+    // On passe directement le renderer reçu en paramètre
+    ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), renderer);
+}
 
-}*/
-
-
+void NettoyerUI() {
+    ImGui_ImplSDLRenderer3_Shutdown();
+    ImGui_ImplSDL3_Shutdown();
+    ImGui::DestroyContext();
+}
 
 

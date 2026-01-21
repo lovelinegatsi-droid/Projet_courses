@@ -29,6 +29,21 @@ Pour realiser ce projet, nous devrons:
 
 Ici en quelques mots est ce a quoi consistera mon projet 😏😏😏😏😏
 
+
+#### PRESENTATION DE IMGUI ET BASE
+Résumé des explications ImGui  
+**ImGui::NewFrame()** : Dit à ImGui "On commence à dessiner une nouvelle image". Tout code ImGui doit être après ceci.  
+  
+**ImGui::Begin("Titre")** ... ImGui::End() : Tout ce qui est entre ces deux lignes sera à l'intérieur de la fenêtre.  
+  
+**ImGui::RadioButton** : C'est magique pour les choix exclusifs. Si tu as une Enum, tu testes valeur == OPTION. Si l'utilisateur clique, la fonction renvoie true, et tu fais valeur = OPTION.  
+  
+**ImGui::Combo** : C'est le plus complexe ici. Il prend un tableau de chaînes (const char* items[]) et un int* current_item. ImGui affiche le texte correspondant à items[*current_item] et met à jour l'int si l'utilisateur change.  
+  
+**ImGui::Render()** : Calcule les triangles à dessiner, mais ne dessine pas encore.  
+  
+**ImGui_ImplSDLRenderer3_RenderDrawData** : C'est la commande qui utilise réellement ton SDL_Renderer pour afficher les triangles calculés juste avant.  
+
 # REDACTION DU PROGRAMME
 L'archtitecture de ce programme est:
 

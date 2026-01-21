@@ -9,6 +9,7 @@
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_sdlrenderer3.h"
 #include "Utils.h"
+#include "Utils.h"
 
 /**
  * @brief Initialise les outils ImGui pour SDL3
@@ -20,7 +21,7 @@ void InitUI(SDL_Window* window, SDL_Renderer* renderer);
 /**
  * @brief Prépare une nouvelle image (frame) pour l'interface
  */
-void NouvelleTrameUI();
+void NouvelleFrameUI();
 
 /**
  * @brief Affiche le menu de configuration du jeu
@@ -34,11 +35,16 @@ void AfficherMenuConfiguration(TypeJoueur* typeJ2, float* vitessePiste);
  */
 void RendreUI();
 
+void ChoixVoiture(GameState* etatJeu, TypeJoueur* TypeJoueur2, int* choix_joueur1, int* choix_joueur2, const char* Car_Skins, int nbre_Skins, const char* texture_fond, int Nbre_fond, int* Choix_fond);
+//void ChoixFond(const char* texture_fond, int Nbre_fond, int* Choix_fond);
+
 /**
  * @brief Nettoie la mémoire d'ImGui
  */
 void NettoyerUI();
 
 void RendreUI(SDL_Renderer* renderer);
+
+void TraiterEvenementsUI(const SDL_Event* event);
 
 #endif

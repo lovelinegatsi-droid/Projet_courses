@@ -12,11 +12,27 @@
     STATE_GAME_OVER
 };*/
 
+/*const char* mListe_piste[12]={
+        "assets/piste1.png",
+        "assets/piste2.png",
+        "assets/piste3.png",
+        "assets/piste5.png",
+        "assets/piste6.png",
+        "assets/piste7.png",
+        "assets/piste8.png",
+        "assets/piste10.png",
+        "assets/piste12.png",
+        "assets/piste13.png",
+        "assets/piste14.png",
+        "assets/piste15.png",
+    };
+    int mchoixpiste;*/
 #ifndef GAME_H
 #define GAME_H
 
 #include <SDL3/SDL.h>
 #include "Utils.h"
+#include "UI.h"
 
 /**
  * @brief Classe principale gérant la boucle de jeu
@@ -38,33 +54,69 @@ public:
     // pour les collisions 
     void Check_Collision();
 
-private:
     // Gère les entrées clavier/souris
     void HandleEvents();
     
     // Met à jour la logique (physique, collisions)
     void Update();
+
+    // generation aleatoire des obstacles
+    void Obstacles_Generated(SDL_Renderer* renderer);
+
+    //dessin de la piste
+    void DrawPiste();
     
     // Dessine les éléments à l'écran
     void Render();
+private:
 
     bool misRunning;            // État de la boucle de jeu
     SDL_Window* mwindow;        // Fenêtre principale
     SDL_Renderer* mrenderer;    // Moteur de rendu
-
+    SDL_Texture* mfond;
     //Ajout de nouvelle variable 
-    SDL_Texture* mpisteTexture;   // Image de la route
+    SDL_Texture* mpisteTexture[2];   // Image de la route
+    SDL_Texture * mpisteTexture2;
+    //Sert à savoir quelle image est en bas (0, 1 ou 2)
+    int mIndicePisteActuelle;
     //float mvitesseJeu; //vitesse globale
     float mdecalagePiste;         // Position actuelle du défilement
     Car mjoueur1;        // Voiture 1
     Car mjoueur2;        // Voiture 2 (ou IA)
     TypeJoueur mtypeJ2;  // État du second joueur
 
+    GameState mEtat_Jeu;
+    const char* mListe_car_SKin[8]={
+        "assets/car1.png",
+        "assets/car2.png",
+        "assets/car3.png",
+        "assets/car6.png",
+        "assets/car8.png",
+        "assets/car9.png",
+        "assets/car10.png",
+        "assets/car11.png",
+    };
+
+    const char* mListe_fond[7]={
+        "assets/fond1.png",
+        "assets/fond2.png",
+        "assets/fond3.png",
+        "assets/fond4.png",
+        "assets/fond5.png",
+        "assets/fond6.png",
+        "assets/fond7.png",
+    };
+
+    int mChoixJoueur1;
+    int mChoixJoueur2;
+    int mChoixFond;
+
    /*/ // --- Variables de Progression ---
     float mdistanceParcourue;   // Distance actuelle du joueur
     float mobjectifDistance;    // Distance pour atteindre l'arrivée
     bool mestArrive;  */          // Vrai si la ligne d'arrivée est franchie
 };
+
 
 #endif
 
